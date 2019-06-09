@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>VideoPlayer</title>
+</head>
+<body>
+    
+<div class="container">
+    <div class="video_wrapper player relative">
+        <div class="video_box">
+            <video class="video_" src="video/rippera.mp4" ></video>
+        </div>
+        <div class="controlers">
+            <div class="progress_back">
+                <div class="progress_bar"></div>
+            </div>
+            <div class="controler_buttons_box">
+                <div class="toggle">
+                    <img class="main_svg" src="img/play.svg" alt="" style="margin-bottom: -3px;">
+                </div>
+                <div class="volume_box">
+                    <img class="vol_img main_svg"  src="img/vol1.svg" alt="img">
+                    <input  type="range" name="volume" class="volume" min="0" max="1" step="0.05" value="1">
+                </div>
+                
+                <div class="buttons_wrapper">
+                    <button data-skip="-10" class="skipBtns">  10s</button>
+                    <button data-skip="25"  class="skipBtns"> 25s </button>
+                </div>
+                <div id="currentTime">00:00 / 00:00</div>
+                <div class="full_screen"><img class="main_svg" src="img/fullscreen.svg" alt=""></div>
+            </div>
+        </div>
+    </div>
+    <!-- video gallery -->
+    <!-- <div class="mini_video_wrapper">
+        <div class="mini_video_box">
+            <video src="video/creepy.mp4"type="video/mp4"></video>
+        </div>
+        <div class="mini_video_box">
+            <video src="video/rippera.mp4" type="video/mp4"></video>
+        </div>
+    </div> -->
+    <!-- video gallery -->
+</div>
+
+
+<script src="js/script.js"></script>    
+</body>
+</html>
