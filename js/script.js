@@ -33,9 +33,9 @@ function changeVolume(e) {
     video.volume = volume.value;
     if (volume.value == 0) {
         volImg.src = 'img/vol0.svg';
-    }else if(volume.value == 0.75){
+    }else if(volume.value < 0.75 && volume.value > 0.55){
         volImg.src = 'img/vol2.svg';
-    }else if(volume.value == 0.55){
+    }else if(volume.value < 0.55){
         volImg.src = 'img/vol3.svg';
     }
     else if(volume.value == 1){
@@ -90,9 +90,11 @@ function totalTime(seconds) {
 document.querySelector('.vol_img').addEventListener('click',()=>{
     if (video.volume == 1) {
         video.volume = 0;
+        volume.value = 0;
         volImg.src = 'img/vol0.svg';
     }else{
         video.volume = 1;
+        volume.value = 1;
         volImg.src = 'img/vol1.svg';
     }
 });
@@ -126,6 +128,7 @@ document.addEventListener("keypress", function(e) {
 let mousedown = false;
 skipButtons.forEach(button => button.addEventListener('click',skipVideo));
 volume.addEventListener('mousemove',changeVolume);
+volume.addEventListener('click',changeVolume);
 progressBarBack.addEventListener('click',scrub);
 progressBarBack.addEventListener('mousemove',(e)=>mousedown && scrub(e));
 progressBarBack.addEventListener('mousedown',()=> mousedown = true);

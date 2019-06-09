@@ -14,27 +14,30 @@
 <div class="container">
     <div class="video_wrapper player relative">
         <div class="video_box">
-            <video class="video_" src="video/rippera.mp4" ></video>
+            <video class="video_" src="video/rippera.mp4" autobuffer></video>
         </div>
         <div class="controlers">
             <div class="progress_back">
                 <div class="progress_bar"></div>
             </div>
-            <div class="controler_buttons_box">
-                <div class="toggle">
-                    <img class="main_svg" src="img/play.svg" alt="" style="margin-bottom: -3px;">
+            <div class="controler_buttons_box d_flex">
+                <div class="controler_box1 d_flex">
+                    <div class="toggle">
+                        <img class="main_svg" src="img/play.svg" alt="" style="margin-top: 3px;">
+                    </div>
+                    <div class="volume_box">
+                        <img class="vol_img main_svg"  src="img/vol1.svg" alt="img">
+                        <input  type="range" name="volume" class="volume" min="0" max="1" step="0.05" value="1">
+                    </div>
+                    <div id="currentTime">00:00 / 00:00</div>
                 </div>
-                <div class="volume_box">
-                    <img class="vol_img main_svg"  src="img/vol1.svg" alt="img">
-                    <input  type="range" name="volume" class="volume" min="0" max="1" step="0.05" value="1">
+                <div class="controler_box2 d_flex">
+                    <div class="buttons_wrapper">
+                        <button data-skip="-10" class="skipBtns">  10s</button>
+                        <button data-skip="25"  class="skipBtns"> 25s </button>
+                    </div>
+                    <div class="full_screen"><img class="main_svg" src="img/fullscreen.svg" alt=""></div>
                 </div>
-                
-                <div class="buttons_wrapper">
-                    <button data-skip="-10" class="skipBtns">  10s</button>
-                    <button data-skip="25"  class="skipBtns"> 25s </button>
-                </div>
-                <div id="currentTime">00:00 / 00:00</div>
-                <div class="full_screen"><img class="main_svg" src="img/fullscreen.svg" alt=""></div>
             </div>
         </div>
     </div>
