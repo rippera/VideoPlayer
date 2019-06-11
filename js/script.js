@@ -1,29 +1,30 @@
 "use strict"
-const player            =   document.querySelector('.player');
-const video             =   player.querySelector('.video_');
-const toggle            =   player.querySelector('.toggle img');
-const skipButtons       =   player.querySelectorAll('[data-skip]');
-const volume            =   player.querySelector('.volume');
-const progressBar       =   player.querySelector('.progress_bar');
-const progressBarBack   =   player.querySelector('.progress_back');
-const fullScreen        =   player.querySelector('.full_screen');
-const volImg            =   document.querySelector('.vol_img');
-const currentTime       =   document.getElementById("currentTime");
-const miniVideos        =   document.querySelectorAll('.mini_video_box video');
+const player = document.querySelector('.player');
+const video = player.querySelector('.video_');
+const toggle = player.querySelector('.toggle img');
+const skipButtons = player.querySelectorAll('[data-skip]');
+const volume = player.querySelector('.volume');
+const progressBar = player.querySelector('.progress_bar');
+const progressBarBack = player.querySelector('.progress_back');
+const fullScreen = player.querySelector('.full_screen');
+const volImg = document.querySelector('.vol_img');
+const currentTime = document.getElementById("currentTime");
+const miniVideos = document.querySelectorAll('.mini_video_box video');
 
 
 // play video
-function playVideo ()  {
+function playVideo() {
     if (video.paused) {
         video.play();
         toggle.src = 'img/pause.svg';
-    }else{
+        // video.load();
+    } else {
         video.pause();
         toggle.src = 'img/play.svg';
     }
 }
 // skip video back and forward secends
-function skipVideo ()  {
+function skipVideo() {
     video.currentTime += parseFloat(this.dataset.skip);
 }
 // change volume
@@ -32,21 +33,20 @@ function changeVolume(e) {
     video.volume = volume.value;
     if (volume.value == 0) {
         volImg.src = 'img/vol0.svg';
-    }else if(volume.value < 0.75 && volume.value > 0.55){
+    } else if (volume.value < 0.75 && volume.value > 0.55) {
         volImg.src = 'img/vol2.svg';
-    }else if(volume.value < 0.55){
+    } else if (volume.value < 0.55) {
         volImg.src = 'img/vol3.svg';
-    }
-    else if(volume.value == 1){
+    } else if (volume.value == 1) {
         volImg.src = 'img/vol1.svg';
     }
-    
+
 }
 // progresbar animation with video duration
 function handleProgressBar() {
     const parcent = (video.currentTime / video.duration) * 100;
     progressBar.style.width = `${parcent}%`;
-    convertTime(Math.round(video.currentTime));  //convert decimal no into intiger
+    convertTime(Math.round(video.currentTime)); //convert decimal no into intiger
 }
 // gadaxveva
 function scrub(e) {
@@ -54,13 +54,12 @@ function scrub(e) {
     video.currentTime = scrubTime;
     // console.log(e.clientX + scrubTime);
 }
-
 // allow fullscreen
 function toggleFullScreen() {
     // get full screen 
     if (video.requestFullscreen) {
         video.requestFullscreen();
-    }else if(video.webkitRequestFullscreen){
+    } else if (video.webkitRequestFullscreen) {
         video.webkitRequestFullscreen();
     }
 }
@@ -68,92 +67,92 @@ function toggleFullScreen() {
 function convertTime(seconds) {
     let min = Math.floor(seconds / 60);
     let sec = seconds % 60;
-    
+
     min = (min < 10) ? "0" + min : min;
     sec = (sec < 10) ? "0" + sec : sec;
     currentTime.textContent = min + ":" + sec;
-    
+
     totalTime(Math.round(video.duration));
 }
 // convert video time    
 function totalTime(seconds) {
     let min = Math.floor(seconds / 60);
     let sec = seconds % 60;
-    
+
     min = (min < 10) ? "0" + min : min;
     sec = (sec < 10) ? "0" + sec : sec;
     currentTime.textContent += " / " + min + ":" + sec;
 }
 // video gallery func
 function changeVideo(minvideo) {
-    minvideo.addEventListener('click',(e)=>{
+    minvideo.addEventListener('click', (e) => {
         let videoLocation = e.target.getAttribute('src');
-        video.setAttribute('src' , videoLocation);
+        video.setAttribute('src', videoLocation);
         video.width = video.videoWidth;
         playVideo();
     });
 }
 
 function hoverVideo(vid) {
-    vid.addEventListener('mouseover',()=>{
+    vid.addEventListener('mouseover', () => {
         vid.play();
-        vid.volume =0;
+        vid.volume = 0;
         vid.playbackRate = 12;
     });
-    vid.addEventListener('mouseout',()=>{
+    vid.addEventListener('mouseout', () => {
         vid.pause();
     })
 }
 ///// event listeners
-document.querySelector('.vol_img').addEventListener('click',()=>{
+document.querySelector('.vol_img').addEventListener('click', () => {
     if (video.volume == 1) {
         video.volume = 0;
         volume.value = 0;
         volImg.src = 'img/vol0.svg';
-    }else{
+    } else {
         video.volume = 1;
         volume.value = 1;
         volImg.src = 'img/vol1.svg';
     }
 });
 //  play video on click
-video.addEventListener('click',()=>{
+video.addEventListener('click', () => {
     playVideo();
 });
-video.addEventListener('timeupdate',()=>{
+video.addEventListener('timeupdate', () => {
     handleProgressBar();
     if (video.ended) {
         toggle.src = 'img/play.svg';
         progressBar.style.width = `0%`;
     }
 });
-toggle.addEventListener('click',()=>{
+toggle.addEventListener('click', () => {
     playVideo();
 });
 
-fullScreen.addEventListener('click',()=>{
+fullScreen.addEventListener('click', () => {
     toggleFullScreen();
 });
 // full screen with key F 
-document.addEventListener("keypress", function(e) {
+document.addEventListener("keypress", function (e) {
     if (e.keyCode === 102) {
         toggleFullScreen();
-    }else if(e.keyCode === 32){
+    } else if (e.keyCode === 32) {
         playVideo();
     }
 }, false);
 // mini videos start in hover and with click go in main video
-miniVideos.forEach(vid=>{
+miniVideos.forEach(vid => {
     hoverVideo(vid);
 });
-miniVideos.forEach(minvideo=>{
+miniVideos.forEach(minvideo => {
     changeVideo(minvideo);
 });
 let mousedown = false;
-skipButtons.forEach(button => button.addEventListener('click',skipVideo));
-volume.addEventListener('mousemove',changeVolume);
-volume.addEventListener('click',changeVolume);
-progressBarBack.addEventListener('click',scrub);
-progressBarBack.addEventListener('mousemove',(e)=>mousedown && scrub(e));
-progressBarBack.addEventListener('mousedown',()=> mousedown = true);
-progressBarBack.addEventListener('mouseup',()=> mousedown = false);
+skipButtons.forEach(button => button.addEventListener('click', skipVideo));
+volume.addEventListener('mousemove', changeVolume);
+volume.addEventListener('click', changeVolume);
+progressBarBack.addEventListener('click', scrub);
+progressBarBack.addEventListener('mousemove', (e) => mousedown && scrub(e));
+progressBarBack.addEventListener('mousedown', () => mousedown = true);
+progressBarBack.addEventListener('mouseup', () => mousedown = false);
