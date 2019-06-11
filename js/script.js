@@ -1,3 +1,4 @@
+"use strict"
 const player            =   document.querySelector('.player');
 const video             =   player.querySelector('.video_');
 const toggle            =   player.querySelector('.toggle img');
@@ -16,12 +17,10 @@ function playVideo ()  {
     if (video.paused) {
         video.play();
         toggle.src = 'img/pause.svg';
-    }
-    else{
+    }else{
         video.pause();
         toggle.src = 'img/play.svg';
     }
-    
 }
 // skip video back and forward secends
 function skipVideo ()  {
@@ -85,7 +84,26 @@ function totalTime(seconds) {
     sec = (sec < 10) ? "0" + sec : sec;
     currentTime.textContent += " / " + min + ":" + sec;
 }
+// video gallery func
+function changeVideo(minvideo) {
+    minvideo.addEventListener('click',(e)=>{
+        let videoLocation = e.target.getAttribute('src');
+        video.setAttribute('src' , videoLocation);
+        video.width = video.videoWidth;
+        playVideo();
+    });
+}
 
+function hoverVideo(vid) {
+    vid.addEventListener('mouseover',()=>{
+        vid.play();
+        vid.volume =0;
+        vid.playbackRate = 12;
+    });
+    vid.addEventListener('mouseout',()=>{
+        vid.pause();
+    })
+}
 ///// event listeners
 document.querySelector('.vol_img').addEventListener('click',()=>{
     if (video.volume == 1) {
@@ -98,7 +116,7 @@ document.querySelector('.vol_img').addEventListener('click',()=>{
         volImg.src = 'img/vol1.svg';
     }
 });
-
+//  play video on click
 video.addEventListener('click',()=>{
     playVideo();
 });
@@ -124,7 +142,13 @@ document.addEventListener("keypress", function(e) {
         playVideo();
     }
 }, false);
-
+// mini videos start in hover and with click go in main video
+miniVideos.forEach(vid=>{
+    hoverVideo(vid);
+});
+miniVideos.forEach(minvideo=>{
+    changeVideo(minvideo);
+});
 let mousedown = false;
 skipButtons.forEach(button => button.addEventListener('click',skipVideo));
 volume.addEventListener('mousemove',changeVolume);
@@ -133,21 +157,3 @@ progressBarBack.addEventListener('click',scrub);
 progressBarBack.addEventListener('mousemove',(e)=>mousedown && scrub(e));
 progressBarBack.addEventListener('mousedown',()=> mousedown = true);
 progressBarBack.addEventListener('mouseup',()=> mousedown = false);
-
-
-////////////
-// video gallery func
-function changeVideo(item) {
-    item.addEventListener('click',(e)=>{
-        let videoLocation = e.target.getAttribute('src');
-        video.setAttribute('src' , videoLocation);
-        video.width = video.videoWidth;
-        playVideo();
-
-    })
-}
-miniVideos.forEach(item=>{
-    changeVideo(item);
-});
-
-// video gallery func
