@@ -17,7 +17,6 @@ function playVideo() {
     if (video.paused) {
         video.play();
         toggle.src = 'img/pause.svg';
-        // video.load();
     } else {
         video.pause();
         toggle.src = 'img/play.svg';
@@ -90,6 +89,8 @@ function changeVideo(minvideo) {
         video.setAttribute('src', videoLocation);
         video.width = video.videoWidth;
         playVideo();
+        document.querySelector('.video_img').style.opacity = '0';
+        img.style.opacity = '0';
     });
 }
 
@@ -101,7 +102,7 @@ function hoverVideo(vid) {
     });
     vid.addEventListener('mouseout', () => {
         vid.pause();
-    })
+    });
 }
 ///// event listeners
 document.querySelector('.vol_img').addEventListener('click', () => {
@@ -115,15 +116,36 @@ document.querySelector('.vol_img').addEventListener('click', () => {
         volImg.src = 'img/vol1.svg';
     }
 });
+// play video on play img click
+let img = document.createElement('img');
+img.src = 'img/play.svg';
+img.setAttribute('class', 'main_play');
+document.querySelector('.video_box').appendChild(img);
+
+function imgClickPlayVideo() {
+    playVideo();
+    document.querySelector('.video_img').style.opacity = '0';
+    img.style.opacity = '0';
+    if (video.paused) {
+        img.style.opacity = '1';
+    }
+}
+
 //  play video on click
 video.addEventListener('click', () => {
     playVideo();
+    document.querySelector('.video_img').style.opacity = '0';
+    img.style.opacity = '0';
+    if (video.paused) {
+        img.style.opacity = '1';
+    }
 });
 video.addEventListener('timeupdate', () => {
     handleProgressBar();
     if (video.ended) {
         toggle.src = 'img/play.svg';
         progressBar.style.width = `0%`;
+        document.querySelector('.video_img').style.opacity = '1';
     }
 });
 toggle.addEventListener('click', () => {
@@ -139,6 +161,11 @@ document.addEventListener("keypress", function (e) {
         toggleFullScreen();
     } else if (e.keyCode === 32) {
         playVideo();
+        document.querySelector('.video_img').style.opacity = '0';
+        img.style.opacity = '0';
+        if (video.paused) {
+            img.style.opacity = '1';
+        }
     }
 }, false);
 // mini videos start in hover and with click go in main video
@@ -147,6 +174,9 @@ miniVideos.forEach(vid => {
 });
 miniVideos.forEach(minvideo => {
     changeVideo(minvideo);
+});
+img.addEventListener('click', () => {
+    imgClickPlayVideo();
 });
 let mousedown = false;
 skipButtons.forEach(button => button.addEventListener('click', skipVideo));
